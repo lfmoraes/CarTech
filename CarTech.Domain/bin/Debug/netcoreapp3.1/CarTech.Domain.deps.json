@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v3.1",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v3.1": {
+      "CarTech.Domain/1.0.0": {
+        "runtime": {
+          "CarTech.Domain.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "CarTech.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

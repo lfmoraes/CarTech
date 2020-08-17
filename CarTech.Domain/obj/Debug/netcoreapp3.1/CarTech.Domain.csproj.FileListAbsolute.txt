@@ -1,0 +1,9 @@
+C:\Users\jrbonfim\source\repos\CarTech\CarTech\CarTech.Domain\bin\Debug\netcoreapp3.1\CarTech.Domain.deps.json
+C:\Users\jrbonfim\source\repos\CarTech\CarTech\CarTech.Domain\bin\Debug\netcoreapp3.1\CarTech.Domain.dll
+C:\Users\jrbonfim\source\repos\CarTech\CarTech\CarTech.Domain\bin\Debug\netcoreapp3.1\CarTech.Domain.pdb
+C:\Users\jrbonfim\source\repos\CarTech\CarTech\CarTech.Domain\obj\Debug\netcoreapp3.1\CarTech.Domain.AssemblyInfoInputs.cache
+C:\Users\jrbonfim\source\repos\CarTech\CarTech\CarTech.Domain\obj\Debug\netcoreapp3.1\CarTech.Domain.AssemblyInfo.cs
+C:\Users\jrbonfim\source\repos\CarTech\CarTech\CarTech.Domain\obj\Debug\netcoreapp3.1\CarTech.Domain.csproj.CoreCompileInputs.cache
+C:\Users\jrbonfim\source\repos\CarTech\CarTech\CarTech.Domain\obj\Debug\netcoreapp3.1\CarTech.Domain.dll
+C:\Users\jrbonfim\source\repos\CarTech\CarTech\CarTech.Domain\obj\Debug\netcoreapp3.1\CarTech.Domain.pdb
+C:\Users\jrbonfim\source\repos\CarTech\CarTech\CarTech.Domain\obj\Debug\netcoreapp3.1\CarTech.Domain.csprojAssemblyReference.cache
