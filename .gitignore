@@ -3,3 +3,11 @@
 ################################################################################
 
 /.vs
+/CarTech/.vs/CarTech
+/CarTech/CarTech.Domain/bin/Debug/netcoreapp3.1
+/CarTech/CarTech.Domain/obj
+/CarTech/CarTech.Registration.Api/bin/Debug/netcoreapp3.1
+/CarTech/CarTech.Registration.Api/obj
+/CarTech/CarTech.Registration.Data/bin/Debug/netcoreapp3.1
+/CarTech/CarTech.Registration.Data/Migrations
+/CarTech/CarTech.Registration.Data/obj
