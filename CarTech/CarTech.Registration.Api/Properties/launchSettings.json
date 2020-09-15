@@ -19,8 +19,8 @@
     },
     "CarTech.Registration.Api": {
       "commandName": "Project",
-      "launchBrowser": true,
-      "launchUrl": "swagger/index.html",
+      "launchBrowser": false,
+      //"launchUrl": "swagger/index.html",
       "applicationUrl": "http://localhost:5000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

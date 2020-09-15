@@ -1,6 +1,5 @@
-﻿using AutoMapper;
-using CarTech.Domain.Models.Identity;
-using CarTech.Registration.Api.DTO;
+﻿using CarTech.Domain.Models.Identity;
+using CarTech.VewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -23,10 +22,10 @@ namespace CarTech.Registration.Api.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IConfiguration _config;
-        private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<IdentityUser> _signInManager;
 
-        public AuthController(IConfiguration config, UserManager<User> userManager, SignInManager<User> signInManager)
+        public AuthController(IConfiguration config, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
         {
             _config = config;
             _userManager = userManager;
@@ -34,13 +33,13 @@ namespace CarTech.Registration.Api.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(UserLoginDTO model)
+        public async Task<IActionResult> Login(UserLoginViewModel model)
         {
             try
             {
                 var user = await _userManager.FindByNameAsync(model.UserName);
 
-                if (user != null && user.Id > 0)
+                if (user != null && !string.IsNullOrEmpty(user.Id))
                 {
                     var result = await _signInManager.CheckPasswordSignInAsync(user, model.Password, false);
 
@@ -50,8 +49,7 @@ namespace CarTech.Registration.Api.Controllers
 
                         return Ok(new
                         {
-                            token = GenerateJsonWebToken(appUser),
-                            user = model
+                            token = GenerateJsonWebToken(appUser)
                         });
                     }
                 }
@@ -64,7 +62,7 @@ namespace CarTech.Registration.Api.Controllers
             return Unauthorized();
         }
 
-        private async Task<string> GenerateJsonWebToken(User appUser)
+        private async Task<string> GenerateJsonWebToken(IdentityUser appUser)
         {
             var claims = new List<Claim>();
             claims.Add(new Claim(ClaimTypes.NameIdentifier, appUser.Id.ToString()));

@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CarTech.Domain.Models.Identity
 {
-    public class User : IdentityUser<int>
+    public class User : IdentityUser
     {
-        public List<UserRole> UserRoles { get; set; }
+        [NotMapped]
+        public string Role { get; set; }
     }
 }   

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using CarTech.Domain.Models;
-using CarTech.Registration.Api.DTO;
+using CarTech.ViewModel;
 
 namespace CarTech.Registration.Api.Mapper
 {
@@ -8,7 +8,8 @@ namespace CarTech.Registration.Api.Mapper
     {
         public AutoMapping()
         {
-            CreateMap<Cliente, ClienteDTO>().ReverseMap();
+            CreateMap<Cliente, ClienteViewModel>().ReverseMap();
+            CreateMap<Categoria, CategoriaViewModel>().ReverseMap();
         }
     }
 }

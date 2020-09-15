@@ -11,3 +11,13 @@
 /CarTech/CarTech.Registration.Data/bin/Debug/netcoreapp3.1
 /CarTech/CarTech.Registration.Data/Migrations
 /CarTech/CarTech.Registration.Data/obj
+/CarTech/CarTech.App/bin/Debug/netcoreapp3.1
+/CarTech/CarTech.App/obj
+/CarTech/CarTech.Data/bin/Debug/netcoreapp3.1
+/CarTech/CarTech.Data/obj
+/CarTech/CarTech.Infra/bin/Debug/netcoreapp3.1
+/CarTech/CarTech.Infra/obj
+/CarTech/CarTech.Registration.API.Test/bin/Debug/netcoreapp3.1
+/CarTech/CarTech.Registration.API.Test/obj
+/CarTech/CarTech.VewModel/bin/Debug/netcoreapp3.1
+/CarTech/CarTech.VewModel/obj

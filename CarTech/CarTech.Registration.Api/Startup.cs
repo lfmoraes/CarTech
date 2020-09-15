@@ -1,8 +1,8 @@
 using AutoMapper;
 using CarTech.Domain.Models.Identity;
-using CarTech.Registration.Data.Context;
-using CarTech.Registration.Data.Interface.Base;
-using CarTech.Registration.Data.Repository.Base;
+using CarTech.Data.Context;
+using CarTech.Data.Interface.Base;
+using CarTech.Data.Repository.Base;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -31,12 +31,12 @@ namespace CarTech.Registration.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<RegistrationDbContext>(options => {
+            services.AddDbContext<CarTechContext>(options => {
                 options.UseSqlServer(Configuration.GetConnectionString("RegistrationConnection"));
             });
 
             services.AddTransient<IRepositoryWrapper, RepositoryWrapper>();
-            services.AddTransient<RegistrationDbContext>();
+            services.AddTransient<CarTechContext>();
 
             services.AddControllers();
 
@@ -48,7 +48,7 @@ namespace CarTech.Registration.Api
             services.AddAutoMapper(typeof(Startup));
 
 
-            IdentityBuilder builder = services.AddIdentityCore<User>(options =>
+            IdentityBuilder builder = services.AddIdentityCore<IdentityUser>(options =>
             {
                 options.Password.RequireDigit = false;
                 options.Password.RequireNonAlphanumeric = false;
@@ -57,19 +57,17 @@ namespace CarTech.Registration.Api
                 options.Password.RequiredLength = 4;
             });
 
-            builder = new IdentityBuilder(builder.UserType, typeof(Role), builder.Services);
-            builder.AddEntityFrameworkStores<RegistrationDbContext>();
-            builder.AddRoleValidator<RoleValidator<Role>>();
-            builder.AddRoleManager<RoleManager<Role>>();
-            builder.AddSignInManager<SignInManager<User>>();
+            builder = new IdentityBuilder(builder.UserType, builder.Services);
+            builder.AddRoles<IdentityRole>();
+            builder.AddEntityFrameworkStores<CarTechContext>();
+            builder.AddSignInManager<SignInManager<IdentityUser>>();
 
             services.AddMvc(options =>
             {
                 var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
 
                 options.Filters.Add(new AuthorizeFilter(policy));
-            }
-            );
+            });
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(o =>
             {
@@ -81,6 +79,7 @@ namespace CarTech.Registration.Api
                     ValidateAudience = false
                 };
             });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

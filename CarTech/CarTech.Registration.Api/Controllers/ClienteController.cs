@@ -1,16 +1,19 @@
 ﻿using AutoMapper;
+using CarTech.Data.Interface.Base;
 using CarTech.Domain.Models;
-using CarTech.Registration.Api.DTO;
-using CarTech.Registration.Data.Interface.Base;
+using CarTech.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CarTech.Registration.Api.Controllers
 {
     [ApiController]
     [Route("api/clientes")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ClienteController : ControllerBase
     {
         private readonly IMapper _mapper;
@@ -29,7 +32,7 @@ namespace CarTech.Registration.Api.Controllers
             {
                 var clientes = await _repository.Cliente.GetAllClientesAsync();
 
-                var clientesToReturn = _mapper.Map<List<ClienteDTO>>(clientes);
+                var clientesToReturn = _mapper.Map<List<ClienteViewModel>>(clientes);
 
                 return Ok(clientesToReturn);
             }
@@ -40,7 +43,7 @@ namespace CarTech.Registration.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<ClienteDTO>> Get(int id)
+        public async Task<ActionResult<ClienteViewModel>> Get(int id)
         {
             try
             {
@@ -51,7 +54,7 @@ namespace CarTech.Registration.Api.Controllers
                     return NotFound();
                 }
 
-                var clienteToReturn = _mapper.Map<ClienteDTO>(cliente);
+                var clienteToReturn = _mapper.Map<ClienteViewModel>(cliente);
 
                 return clienteToReturn;
             }
@@ -63,7 +66,7 @@ namespace CarTech.Registration.Api.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody]ClienteDTO cliente)
+        public async Task<IActionResult> Create([FromBody]ClienteViewModel cliente)
         {
             try
             {
@@ -94,7 +97,7 @@ namespace CarTech.Registration.Api.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update(int id, [FromBody]ClienteDTO cliente)
+        public async Task<IActionResult> Update(int id, [FromBody]ClienteViewModel cliente)
         {
             try
             {
