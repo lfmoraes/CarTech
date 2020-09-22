@@ -80,14 +80,18 @@ namespace CarTech.Registration.Api
                 };
             });
 
+            services.AddCors(allowsites => {
+                allowsites.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, CarTechContext context)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                context.Database.EnsureCreated();
             }
 
            // app.UseHttpsRedirection();
@@ -105,6 +109,8 @@ namespace CarTech.Registration.Api
             {
                 endpoints.MapControllers();
             });
+
+            app.UseCors(options => options.AllowAnyOrigin());
         }
     }
 }

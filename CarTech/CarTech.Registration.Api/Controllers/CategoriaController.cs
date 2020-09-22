@@ -4,6 +4,7 @@ using CarTech.Domain.Models;
 using CarTech.ViewModel;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ namespace CarTech.Registration.Api.Controllers
 {
     [ApiController]
     [Route("api/categorias")]
+    [EnableCors("AllowOrigin")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class CategoriaController : ControllerBase
     {

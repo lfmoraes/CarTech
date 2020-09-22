@@ -54,6 +54,8 @@ namespace CarTech.App
 
                 var httpContextAccessor = serviceProvider.GetService<IHttpContextAccessor>();
 
+                client.DefaultRequestHeaders.Add("Access-Control-Allow-Origin", "*");
+
                 var bearerToken = httpContextAccessor.HttpContext.Request
                                       .Headers["Authorization"]
                                       .FirstOrDefault(h => h.StartsWith("bearer ", StringComparison.InvariantCultureIgnoreCase));
@@ -86,6 +88,8 @@ namespace CarTech.App
 
             app.Use(async (context, next) =>
             {
+                context.Request.Headers.Add("Access-Control-Allow-Origin", "*");
+
                 var JWToken = context.Session.GetString("JWToken");
 
                 if (!string.IsNullOrEmpty(JWToken))

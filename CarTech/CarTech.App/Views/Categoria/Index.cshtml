@@ -58,15 +58,4 @@
 
 @await Html.PartialAsync("Create", new CategoriaViewModel())
 
-<script type="text/javascript">
-
-    $(document).ready(function () {
-        var baseUrl = '@(CarTech.Infra.Util.baseApiRegistration + "categorias")'
-
-        $('#datatable').DataTable({
-            serverSide: true,
-            ajax: baseUrl
-        });
-    });
-</script>
 
