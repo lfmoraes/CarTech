@@ -1,0 +1,65 @@
+﻿@model CategoriaViewModel
+
+<div id="mdlCadCategoria" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mt-0" id="myModalLabel">Nova Categoria</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="frmCadCategoria" method="post" asp-controller="categoria" asp-action="create" style="text-align: left !important;">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Descricao)
+                        @Html.TextBoxFor(m => m.Descricao, new { @class = "form-control", placeholder = "Informe a descrição da categoria", required = "required" })
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary waves-effect waves-light" onclick="submit();">Salvar</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<script type="text/javascript">
+
+
+    function submit() {
+        $.ajax({
+            url: '/Categoria/Create',
+            type: 'post',
+            dataType: 'json',
+            async: true,
+            data: $('#frmCadCategoria').serialize(),
+            success: function (data) {
+                if (data.success) {
+                    $('#mdlCadCategoria').modal('hide');
+                    $('#frmCadCategoria')[0].reset();
+
+                    Swal.fire({
+                        type: 'success',
+                        title: 'Cadastro realizado com sucesso!'
+                    }).then(function (result) {
+                        if (result.value) {
+                            location.reload();
+                        }
+                    });
+                }
+                else {
+                    showError();
+                }
+            },
+            error: function (data) {
+                showError();
+            }
+        });
+    }
+
+    function showError() {
+        Swal.fire({
+            type: 'error',
+            title: 'Erro ao realizar cadastro!'
+        });
+    }
+</script>

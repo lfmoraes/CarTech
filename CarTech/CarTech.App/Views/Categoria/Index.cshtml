@@ -6,15 +6,6 @@
 <!-- Start content -->
 <div class="content">
     <div class="container-fluid">
-        <div class="page-title-box">
-            <div class="row align-items-center">
-                <div class="col-sm-12">
-                    <h4 class="page-title">@ViewData["Title"]</h4>
-                </div>
-            </div>
-        </div>
-        <!-- end row -->
-
         <div class="row">
             <div class="col-12">
                 <div class="card">
@@ -27,24 +18,24 @@
                                     <th></th>
                                 </tr>
                             </thead>
-                            @*<tbody>
+                            <tbody>
                                 @foreach (var item in Model)
                                 {
                                     <tr>
                                         <td>@item.Id</td>
                                         <td>@item.Descricao</td>
-                                        <td></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary" title="Editar" onclick='categoria.open(@item.Id)'><i class="fa fa-pencil-alt"></i></button>
+                                            <button class="btn btn-sm btn-outline-danger" title="Excluir" onclick='cadastros.excluir("Categoria", @item.Id)'><i class="fa fa-trash"></i></button>
+                                        </td>
                                     </tr>
                                 }
-                            </tbody>*@
+                            </tbody>
                         </table>
-                        @*<a asp-action="create" asp-controller="categoria" class="float">
-                                <i class="fa fa-plus my-float"></i>
-                            </a>*@
-                        <a class="float" data-toggle="modal" data-target="#mdlCadCategoria">
+                        @*<a class="float" data-toggle="modal" data-target="#mdlCadCategoria">
                             <i class="fa fa-plus my-float"></i>
-                        </a>
-                        @*<button type="button" class="float" data-toggle="modal" data-target="#mdlCadCategoria"><i class="fa fa-plus my-float"></i></button>*@
+                        </a>*@
+                        <a class="float" onclick='categoria.open()'><i class="fa fa-plus my-float"></i></a>
                     </div>
                 </div>
             </div> <!-- end col -->
@@ -56,6 +47,6 @@
 </div>
 <!-- content -->
 
-@await Html.PartialAsync("Create", new CategoriaViewModel())
+@await Html.PartialAsync("Modal")
 
 

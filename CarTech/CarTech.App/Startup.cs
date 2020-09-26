@@ -54,8 +54,6 @@ namespace CarTech.App
 
                 var httpContextAccessor = serviceProvider.GetService<IHttpContextAccessor>();
 
-                client.DefaultRequestHeaders.Add("Access-Control-Allow-Origin", "*");
-
                 var bearerToken = httpContextAccessor.HttpContext.Request
                                       .Headers["Authorization"]
                                       .FirstOrDefault(h => h.StartsWith("bearer ", StringComparison.InvariantCultureIgnoreCase));
@@ -64,6 +62,11 @@ namespace CarTech.App
                     client.DefaultRequestHeaders.Add("Authorization", bearerToken);
 
                 client.BaseAddress = new Uri(Util.baseApiRegistration);
+            });
+
+            services.AddCors(c =>
+            {
+                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
             });
         }
 
@@ -113,6 +116,8 @@ namespace CarTech.App
                    template: "{controller=Home}/{action=Index}/{id?}");
 
             });
+
+            app.UseCors(options => options.AllowAnyOrigin());
         }
     }
 }

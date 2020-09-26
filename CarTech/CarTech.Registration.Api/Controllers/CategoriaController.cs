@@ -4,9 +4,9 @@ using CarTech.Domain.Models;
 using CarTech.ViewModel;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
+using System; 
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -14,7 +14,6 @@ namespace CarTech.Registration.Api.Controllers
 {
     [ApiController]
     [Route("api/categorias")]
-    [EnableCors("AllowOrigin")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class CategoriaController : ControllerBase
     {
@@ -98,7 +97,7 @@ namespace CarTech.Registration.Api.Controllers
             return BadRequest();
         }
 
-        [HttpPut]
+        [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] CategoriaViewModel categoria)
         {
             try
@@ -132,6 +131,32 @@ namespace CarTech.Registration.Api.Controllers
             catch (Exception)
             {
                 return StatusCode(500, "Internal server error");
+            }
+
+            return BadRequest();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                var categoria = await _repository.Categoria.GetCategoriaByIdAsync(id);
+                if (categoria == null)
+                {
+                    return NotFound();
+                }
+
+                _repository.Categoria.DeleteCategoria(categoria);
+
+                if (await _repository.SaveAsync())
+                {
+                    return Ok("Categoria removida com sucesso!");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.ToString());
             }
 
             return BadRequest();

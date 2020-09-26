@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -25,35 +24,49 @@ namespace CarTech.App.Controllers
             _toastNotification = toastNotification;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var client = _httpClient.CreateClient("cartech");
+            var response = await client.GetAsync("categorias");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var categorias = JsonConvert.DeserializeObject<List<CategoriaViewModel>>(await response.Content.ReadAsStringAsync());
+                return View(categorias);
+            }
+            else
+            {
+                if (response.StatusCode == HttpStatusCode.Unauthorized)
+                {
+                    _toastNotification.AddErrorToastMessage("Acesso Negado!");
+                }
+            }
+
+            return RedirectToAction("Index", "Home");
         }
 
-        //public async Task<IActionResult> Index()
-        //{
-        //    var client = _httpClient.CreateClient("cartech");
-        //    var response = await client.GetAsync("categorias");
+        public IActionResult Modal()
+        {
+            return PartialView();
+        }
 
-        //    if (response.IsSuccessStatusCode)
-        //    {
-        //        var categorias = JsonConvert.DeserializeObject<List<CategoriaViewModel>>(await response.Content.ReadAsStringAsync());
-        //        return View(categorias);
-        //    }
-        //    else
-        //    {
-        //        if (response.StatusCode == HttpStatusCode.Unauthorized)
-        //        {
-        //            _toastNotification.AddErrorToastMessage("Acesso Negado!");
-        //        }
-        //    }
-
-        //    return RedirectToAction("Index", "Home");
-        //}
-
-        public IActionResult Create()
+        public async Task<IActionResult> Create(int id)
         {
             CategoriaViewModel model = new CategoriaViewModel();
+
+            if(id > 0)
+            {
+                using (var client = _httpClient.CreateClient("cartech"))
+                {
+                    var response = await client.GetAsync("categorias/" + id.ToString());
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        model = JsonConvert.DeserializeObject<CategoriaViewModel>(await response.Content.ReadAsStringAsync());
+                    }
+                }
+            }
+
             return PartialView(model);
         }
 
@@ -61,19 +74,51 @@ namespace CarTech.App.Controllers
         public async Task<IActionResult> Create(CategoriaViewModel model)
         {
             bool result = false;
+            var message = string.Empty;
+
             var client = _httpClient.CreateClient("cartech");
 
             var json = JsonConvert.SerializeObject(model);
             var content = new StringContent(json, UnicodeEncoding.UTF8, "application/json");
 
-            var response = await client.PostAsync("categorias", content);
+            var response = new HttpResponseMessage();
 
-            if(response.IsSuccessStatusCode)
+            if (model.Id > 0)
+            {
+                response = await client.PutAsync("categorias/" + model.Id.ToString(), content);
+                message = "Cadastro atualizado com sucesso!";
+            }
+            else
+            {
+                response = await client.PostAsync("categorias", content);
+                message = "Cadastro realizado com sucesso!";
+            }
+
+            if (response.IsSuccessStatusCode)
             {
                 result = true;
             }
 
-            return Json(new { Success = result });
+            return Json(new { Success = result, Message = message });
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            bool success = false;
+
+            try
+            {
+                var client = _httpClient.CreateClient("cartech");
+                var response = await client.DeleteAsync("categorias/" + id.ToString());
+
+                success = response.IsSuccessStatusCode;
+            }
+            catch (Exception)
+            {
+                success = false;
+            }
+
+            return Json(new { success });
         }
     }
 }
