@@ -1,6 +1,6 @@
-﻿@model List<CategoriaViewModel>
+﻿@model List<UserViewModel>
 @{
-    ViewData["Title"] = "Categorias";
+    ViewData["Title"] = "Usuários";
 }
 
 <!-- Start content -->
@@ -14,25 +14,27 @@
                             <thead>
                                 <tr>
                                     <th>Código</th>
-                                    <th>Descrição</th>
+                                    <th>Nome</th>
+                                    <th>Email</th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach (var item in Model)
                                 {
-                                    <tr>
-                                        <td>@item.Id</td>
-                                        <td>@item.Descricao</td>
-                                        <td>
-                                            <button class="btn btn-sm btn-outline-primary" title="Editar" onclick='modal.open("Categoria", @item.Id)'><i class="fa fa-pencil-alt"></i></button>
-                                            <button class="btn btn-sm btn-outline-danger" title="Excluir" onclick='cadastros.excluir("Categoria", @item.Id)'><i class="fa fa-trash"></i></button>
-                                        </td>
-                                    </tr>
+                                <tr>
+                                    <td>@item.Id</td>
+                                    <td>@item.UserName</td>
+                                    <td>@item.Email</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary" title="Editar" onclick='modal.open("User", "@item.Id")'><i class="fa fa-pencil-alt"></i></button>
+                                        <button class="btn btn-sm btn-outline-danger" title="Excluir" onclick='cadastros.excluir("User", "@item.Id")'><i class="fa fa-trash"></i></button>
+                                    </td>
+                                </tr>
                                 }
                             </tbody>
                         </table>
-                        <a class="float" onclick='modal.open("Categoria")'><i class="fa fa-plus my-float"></i></a>
+                        <a class="float" onclick='modal.open("User")'><i class="fa fa-plus my-float"></i></a>
                     </div>
                 </div>
             </div> <!-- end col -->

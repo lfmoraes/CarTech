@@ -1,0 +1,20 @@
+﻿@model UserViewModel
+
+<form id="frmCadUser" style="text-align: left !important;">
+    @Html.HiddenFor(m => m.Id)
+    <div class="form-group">
+        @Html.LabelFor(m => m.UserName)
+        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", placeholder = "Nome", required = "required" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Email)
+        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email", required = "required" })
+    </div>
+    @if (!string.IsNullOrEmpty(Model.Id))
+    {
+        <div class="form-group">
+            @Html.LabelFor(m => m.Password)
+            @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Senha", required = "required" })
+        </div>
+    }
+</form>

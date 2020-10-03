@@ -20,17 +20,14 @@ namespace CarTech.App.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class LoginModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
         private readonly IHttpClientFactory _httpClient;
 
         public LoginModel(SignInManager<IdentityUser> signInManager, 
             ILogger<LoginModel> logger,
-            UserManager<IdentityUser> userManager,
             IHttpClientFactory httpClient)
         {
-            _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _httpClient = httpClient;

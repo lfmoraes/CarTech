@@ -1,13 +1,16 @@
-﻿var categoria = function () {
-    var open = function (id) {
+﻿var modal = function () {
+    var open = function (controller, id) {
+        var url = "/" + controller + "/Create";
+        var mdl = "#mdlCad" + controller;
+
         $.ajax({
-            url: "/Categoria/Create",
+            url: url,
             data: {
                 id: id
             },
             success: function (result) {
                 $("#contentBody").html(result);
-                $("#mdlCadCategoria").modal('show');
+                $(mdl).modal('show');
             }
         });
     }

@@ -1,3 +1,4 @@
+using AutoMapper;
 using System;
 using System.Linq;
 using Microsoft.AspNetCore.Builder;
@@ -11,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 
 using Microsoft.AspNetCore.Http;
 using CarTech.Infra;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CarTech.App
 {
@@ -29,22 +31,46 @@ namespace CarTech.App
             Util.baseApiRegistration = Configuration["BaseUrl"];
 
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
+                       .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
 
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            services.AddSession(options => 
+            services.AddTransient<ApplicationDbContext>();
+
+            IdentityBuilder builder = services.AddDefaultIdentity<IdentityUser>(options =>
+            {
+                // Password settings.
+                options.Password.RequireDigit = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 4;
+
+                // User settings.
+                options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+ ";
+                options.User.RequireUniqueEmail = false;
+            });
+
+            builder = new IdentityBuilder(builder.UserType, builder.Services);
+            builder.AddRoles<IdentityRole>();
+            builder.AddEntityFrameworkStores<ApplicationDbContext>();
+            builder.AddSignInManager<SignInManager<IdentityUser>>();
+
+
+            services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(60);
             });
 
+            services.AddAutoMapper(typeof(Startup));
+
             services.AddControllersWithViews()
                     .AddRazorRuntimeCompilation();
-            
+
             services.AddMvc()
-                .AddMvcOptions(options => options.EnableEndpointRouting = false)
-                .AddNToastNotifyToastr();
+                .AddNToastNotifyToastr()
+                .AddMvcOptions(options => options.EnableEndpointRouting = false);
+
 
             services.AddHttpContextAccessor();
 
@@ -114,7 +140,6 @@ namespace CarTech.App
                 routes.MapRoute(
                    name: "default",
                    template: "{controller=Home}/{action=Index}/{id?}");
-
             });
 
             app.UseCors(options => options.AllowAnyOrigin());

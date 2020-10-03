@@ -21,3 +21,12 @@
 /CarTech/CarTech.Registration.API.Test/obj
 /CarTech/CarTech.VewModel/bin/Debug/netcoreapp3.1
 /CarTech/CarTech.VewModel/obj
+/CarTech/CarTech.App/bin/Release/netcoreapp3.1
+/CarTech/CarTech.App/Properties/PublishProfiles
+/CarTech/CarTech.Data/bin/Release/netcoreapp3.1
+/CarTech/CarTech.Domain/bin/Release/netcoreapp3.1
+/CarTech/CarTech.Infra/bin/Release/netcoreapp3.1
+/CarTech/CarTech.Registration.Api/bin/Release/netcoreapp3.1
+/CarTech/CarTech.Registration.Api/Properties/PublishProfiles
+/CarTech/CarTech.Registration.API.Test/bin/Release/netcoreapp3.1
+/CarTech/CarTech.VewModel/bin/Release/netcoreapp3.1

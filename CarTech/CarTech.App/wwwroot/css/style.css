@@ -3884,3 +3884,7 @@ Invoice
 .my-float {
     margin-top: 22px;
 }
+
+.form-group > label {
+    font-size: 12px;
+}
